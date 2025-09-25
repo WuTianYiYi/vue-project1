@@ -5,8 +5,8 @@
 
       <!-- 输入框区域 -->
       <div class="form">
-        <input v-model="value" class="add" type="text" placeholder="add" @keyup.enter="add" />
-        <div @click="add" class="button">to do</div>
+        <input v-model="value" class="add" type="text" placeholder="to do" @keyup.enter="add" />
+        <div @click="add" class="button">add</div>
       </div>
 
       <!-- 列表滚动容器 -->
@@ -35,17 +35,17 @@ const list = ref([])
 
 async function getList() {
   const res = await axios({
-    url: "https://l4lgh38aty.bja.sealos.run/Get",
+    url: 'https://l4lgh38aty.bja.sealos.run/Get',
     method: "GET"
 
   })
 
   list.value = res.data.list.reverse()
-  console.log(list.value)
+
 }
 
 async function add() {
-if (!value.value?.trim()) return;
+  if (!value.value?.trim()) return;
 
 
   await axios({
@@ -112,8 +112,10 @@ async function del(id) {
 <style scoped>
 /* 滚动列表区域 */
 .list-container {
-  flex: 1;              /* 占满剩余高度 */
-  overflow-y: auto;     /* 超出自身才滚 */
+  flex: 1;
+  /* 占满剩余高度 */
+  overflow-y: auto;
+  /* 超出自身才滚 */
 }
 
 
