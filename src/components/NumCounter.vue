@@ -1,16 +1,19 @@
 <template>
-  <div class="p-6">
-    <h1 class="text-2xl mb-4">当前计数：{{ count }}</h1>
-    <button
-      @click="inc"
-      class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-      :disabled="loading"
-    >
-      点我 +1
-    </button>
-    <p v-if="error" class="text-red-500 mt-2">发生错误：{{ error }}</p>
+  <!-- 先放占位，后续再写真正内容 -->
+  <div>NumCounter 组件加载成功</div>
+  <div>
+    <p v-if="loading">加载中…</p>
+    <p v-else-if="error">{{ error }}</p>
+    <p v-else>当前计数：{{ count }}</p>
+
+    <!-- 按钮必须写在 template 里，且大小写、引号都要对 -->
+    <button @click="inc">+1</button>
+    <button @click="dec">-1</button>
+
   </div>
 </template>
+
+
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
@@ -24,11 +27,13 @@ onMounted(async () => {
   error.value = ''
   try {
     loading.value = true
-    const response = await axios.get('http://localhost:64527/api/counter')
-    count.value = response.data.count ?? 0
-  } catch (error) {
-    console.error('Error fetching counter:', error)
-    error.value = '无法获取计数'
+    const { data } = await axios.get<{ count: number }>('https://my-api.15329444365-788.workers.dev/api/counter')
+    count.value = data.count ?? 0
+  } catch (err: unknown) {
+    console.error('Error fetching counter:', err)
+    error.value = axios.isAxiosError(err)
+      ? err.response?.data?.message || '无法获取计数'
+      : '无法获取计数'
   } finally {
     loading.value = false
   }
@@ -38,15 +43,36 @@ async function inc() {
   error.value = ''
   try {
     loading.value = true
-    const response = await axios.post('http://localhost:64527/api/counter/inc')
-    count.value = response.data.count ?? 0
-  } catch (error) {
-    console.error('Error incrementing counter:', error)
-    error.value = '无法增加计数'
+    const { data } = await axios.post<{ count: number }>('https://my-api.15329444365-788.workers.dev/api/counter/inc')
+    count.value = data.count ?? 0
+  } catch (err: unknown) {
+    console.error('Error incrementing counter:', err)
+    error.value = axios.isAxiosError(err)
+      ? err.response?.data?.message || '无法增加计数'
+      : '无法增加计数'
   } finally {
     loading.value = false
   }
 }
+
+async function dec() {
+  error.value = ''
+  try {
+    loading.value = true
+    const { data } = await axios.post<{ count: number }>('https://my-api.15329444365-788.workers.dev/api/counter/dec')
+    count.value = data.count ?? 0
+  } catch (err: unknown) {
+    console.error('Error decrementing counter:', err)
+    error.value = axios.isAxiosError(err)
+      ? err.response?.data?.message || '无法减少计数'
+      : '无法减少计数'
+  } finally {
+    loading.value = false
+  }
+}
+
+
+// 先占坑，模板写完再删
+void inc
+
 </script>
-
-
