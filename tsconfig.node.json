@@ -1,16 +1,14 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
     "types": ["node"],
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "noEmit": true
 
   },
-  "include": [
-    "vite.config.ts",
-    "vitest.config.ts"
-  ]
+  "include": ["vite.config.ts", "vitest.config.ts"]
 }
+

@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2020",               // 必须 ≥ ES2015
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "Bundler",    // 关键！与 Vite 对齐
     "allowImportingTsExtensions": true,
-    "noEmit": true,               // ← 新增这一行
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
+    "noEmit": true,                   // vue-tsc 只检查不生成
+    "esModuleInterop": true,          // 解决 default import 报错
     "forceConsistentCasingInFileNames": true,
-
+    "strict": true,
+    "skipLibCheck": true              // 先跳过第三方 .d.ts 小错
   },
-  "include": ["src/**/*", "vite.config.ts"],
+  "include": ["src/**/*", "env.d.ts"],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]
 }
+
